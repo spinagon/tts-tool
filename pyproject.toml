@@ -32,6 +32,15 @@ all = [
     "huggingface-hub>=0.20.0",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
 [project.scripts]
 tts = "tts_cli.cli:main"
 tts-cli = "tts_cli.cli:main"
