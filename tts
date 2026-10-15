@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Standalone launcher for Unified TTS CLI tool
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# If invoked inside tts_tool directory
+if [ -d "$SCRIPT_DIR/tts_cli" ]; then
+    ROOT_DIR="$SCRIPT_DIR"
+elif [ -d "$SCRIPT_DIR/tts_tool/tts_cli" ]; then
+    ROOT_DIR="$SCRIPT_DIR/tts_tool"
+else
+    ROOT_DIR="$SCRIPT_DIR"
+fi
+
+export PYTHONPATH="$ROOT_DIR:$PYTHONPATH"
+
+# Check if uv is installed
+if command -v uv >/dev/null 2>&1; then
+    exec uv run --project "$ROOT_DIR" python3 -m tts_cli.cli "$@"
+else
+    exec python3 -m tts_cli.cli "$@"
+fi
