@@ -2,7 +2,12 @@
 # Standalone launcher for Unified TTS CLI tool
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve real canonical path in case script is invoked via symlink
+TARGET_FILE="${BASH_SOURCE[0]}"
+if command -v realpath >/dev/null 2>&1; then
+    TARGET_FILE="$(realpath "$TARGET_FILE")"
+fi
+SCRIPT_DIR="$(cd "$(dirname "$TARGET_FILE")" && pwd)"
 
 # If invoked inside tts_tool directory
 if [ -d "$SCRIPT_DIR/tts_cli" ]; then
